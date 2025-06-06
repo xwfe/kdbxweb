@@ -111,8 +111,16 @@ export function createAesCbc(): AesCbc {
 }
 
 export function random(len: number): Uint8Array {
-    return new Uint8Array(nodeCrypto.randomBytes(len));
-
+    const randomBytes = new Uint8Array(len);
+    while (len > 0) {
+        let segmentSize = len % MaxRandomQuota;
+        segmentSize = segmentSize > 0 ? segmentSize : MaxRandomQuota;
+        const randomBytesSegment = new Uint8Array(segmentSize);
+        wx.getRandomValues(randomBytesSegment);
+        len -= segmentSize;
+        randomBytes.set(randomBytesSegment, len);
+    }
+    return randomBytes;
 }
 
 export function chacha20(

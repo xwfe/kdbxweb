@@ -1,9 +1,17 @@
 {
   "extends": "./conf/tsconfig.base.json",
   "compilerOptions": {
-    "types": ["node", "mocha"],
+    "types": [
+      "node",
+      "mocha",
+      "wechat-miniprogram",
+    ],
     "esModuleInterop": true,
     "resolveJsonModule": true
   },
-  "include": ["test/**/*.ts", "scripts/**/*.ts", "conf/**/*.ts"]
+  "include": [
+    "test/**/*.ts",
+    "scripts/**/*.ts",
+    "conf/**/*.ts",
+  ]
 }

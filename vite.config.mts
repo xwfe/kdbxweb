@@ -4,27 +4,9 @@ import { createFilter } from '@rollup/pluginutils';
 import * as pkg from './package.json';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import inject from '@rollup/plugin-inject';
+import dts from 'vite-plugin-dts'
 
-// 自定义插件：在构建过程中修改文件中的 `// node:buffer`
-function mpPolyfillPlugin() {
-    const filter = createFilter('**/*.{js,ts}', 'node_modules/**');
-
-    return {
-        name: 'add-console-log',
-        transform(code, id) {
-            if (!filter(id)) return;
-
-            // @zxing/text-encoding
-            if (code.includes('// node:stream')) {
-                return code.replace(
-                    /\/\/ node:buffer/g,
-                    "console.log('// node:stream'); // node:stream"
-                );
-            }
-        }
-    };
-}
-
+const mode = (process.env.NODE_ENV === 'production') ? 'prod' : 'debug'
 // Vite 配置
 export default defineConfig({
     plugins: [
@@ -35,6 +17,14 @@ export default defineConfig({
         // Node.js polyfills 插件
         nodePolyfills({
             include: ['stream']
+        }),
+        dts({
+            tsconfigPath: path.join(
+                'conf',
+                `tsconfig.build-${mode}.json`
+            ),
+            entryRoot: './lib',
+            outDir: './dist/types',
         })
     ],
     build: {

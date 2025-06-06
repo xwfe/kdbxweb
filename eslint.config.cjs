@@ -97,7 +97,8 @@ module.exports = [{
             ...globals.jquery,
             ...globals.mocha,
             _: true,
-            $: true
+            $: true,
+            wx: true
         },
         sourceType: 'module',
     },
