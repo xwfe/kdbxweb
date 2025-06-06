@@ -3,10 +3,11 @@ import * as XmlUtils from './../utils/xml-utils';
 import { KdbxTimes } from './kdbx-times';
 import { KdbxUuid } from './kdbx-uuid';
 import { KdbxEntry } from './kdbx-entry';
-import { KdbxCustomData, KdbxCustomDataMap } from './kdbx-custom-data';
+import  { KdbxCustomData } from './kdbx-custom-data';
+import type { KdbxCustomDataMap } from './kdbx-custom-data';
 import { Icons } from '../defs/consts';
 import { KdbxContext } from './kdbx-context';
-import { MergeObjectMap } from './kdbx';
+import type { MergeObjectMap } from './kdbx';
 
 export class KdbxGroup {
     uuid = new KdbxUuid();

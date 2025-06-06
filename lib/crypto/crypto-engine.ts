@@ -13,7 +13,7 @@ import { KdbxError } from '../errors/kdbx-error';
 import { ErrorCodes } from '../defs/consts';
 import { arrayToBuffer, hexToBytes } from '../utils/byte-utils';
 import { ChaCha20 } from './chacha20';
-import * as nodeCrypto from 'crypto';
+import * as nodeCrypto from './crypto';
 
 const EmptySha256 = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855';
 const EmptySha512 =
@@ -28,86 +28,38 @@ export function sha256(data: ArrayBuffer): Promise<ArrayBuffer> {
     if (!data.byteLength) {
         return Promise.resolve(arrayToBuffer(hexToBytes(EmptySha256)));
     }
-    if (global.crypto?.subtle) {
-        return global.crypto.subtle.digest({ name: 'SHA-256' }, data);
-    } else {
-        return new Promise((resolve) => {
-            const sha = nodeCrypto.createHash('sha256');
-            const hash = sha.update(Buffer.from(data)).digest();
-            resolve(hash.buffer);
-        });
-    }
+
+    return new Promise((resolve) => {
+        const sha = nodeCrypto.createHash('sha256');
+        const hash = sha.update(Buffer.from(data)).digest();
+        resolve(hash.buffer);
+    });
 }
 
 export function sha512(data: ArrayBuffer): Promise<ArrayBuffer> {
     if (!data.byteLength) {
         return Promise.resolve(arrayToBuffer(hexToBytes(EmptySha512)));
     }
-    if (global.crypto?.subtle) {
-        return global.crypto.subtle.digest({ name: 'SHA-512' }, data);
-    } else {
-        return new Promise((resolve) => {
-            const sha = nodeCrypto.createHash('sha512');
-            const hash = sha.update(Buffer.from(data)).digest();
-            resolve(hash.buffer);
-        });
-    }
+
+    return new Promise((resolve) => {
+        const sha = nodeCrypto.createHash('sha512');
+        const hash = sha.update(Buffer.from(data)).digest();
+        resolve(hash.buffer);
+    });
 }
 
 export function hmacSha256(key: ArrayBuffer, data: ArrayBuffer): Promise<ArrayBuffer> {
-    if (global.crypto?.subtle) {
-        const algo = { name: 'HMAC', hash: { name: 'SHA-256' } };
-        return global.crypto.subtle
-            .importKey('raw', key, algo, false, ['sign'])
-            .then((subtleKey) => {
-                return global.crypto.subtle.sign(algo, subtleKey, data);
-            });
-    } else {
-        return new Promise((resolve) => {
-            const hmac = nodeCrypto.createHmac('sha256', Buffer.from(key));
-            const hash = hmac.update(Buffer.from(data)).digest();
-            resolve(hash.buffer);
-        });
-    }
+    return new Promise((resolve) => {
+        const hmac = nodeCrypto.createHmac('sha256', Buffer.from(key));
+        const hash = hmac.update(Buffer.from(data)).digest();
+        resolve(hash.buffer);
+    });
 }
 
 export abstract class AesCbc {
     abstract importKey(key: ArrayBuffer): Promise<void>;
     abstract encrypt(data: ArrayBuffer, iv: ArrayBuffer): Promise<ArrayBuffer>;
     abstract decrypt(data: ArrayBuffer, iv: ArrayBuffer): Promise<ArrayBuffer>;
-}
-
-class AesCbcSubtle extends AesCbc {
-    private _key: CryptoKey | undefined;
-
-    private get key(): CryptoKey {
-        if (!this._key) {
-            throw new KdbxError(ErrorCodes.InvalidState, 'no key');
-        }
-        return this._key;
-    }
-
-    importKey(key: ArrayBuffer): Promise<void> {
-        return global.crypto.subtle
-            .importKey('raw', key, { name: 'AES-CBC' }, false, ['encrypt', 'decrypt'])
-            .then((key) => {
-                this._key = key;
-            });
-    }
-
-    encrypt(data: ArrayBuffer, iv: ArrayBuffer): Promise<ArrayBuffer> {
-        return global.crypto.subtle.encrypt(
-            { name: 'AES-CBC', iv },
-            this.key,
-            data
-        ) as Promise<ArrayBuffer>;
-    }
-
-    decrypt(data: ArrayBuffer, iv: ArrayBuffer): Promise<ArrayBuffer> {
-        return global.crypto.subtle.decrypt({ name: 'AES-CBC', iv }, this.key, data).catch(() => {
-            throw new KdbxError(ErrorCodes.InvalidKey, 'invalid key');
-        }) as Promise<ArrayBuffer>;
-    }
 }
 
 class AesCbcNode extends AesCbc {
@@ -155,32 +107,12 @@ class AesCbcNode extends AesCbc {
 }
 
 export function createAesCbc(): AesCbc {
-    if (global.crypto?.subtle) {
-        return new AesCbcSubtle();
-    } else {
-        return new AesCbcNode();
-    }
-}
-
-function safeRandomWeb(len: number): Uint8Array {
-    const randomBytes = new Uint8Array(len);
-    while (len > 0) {
-        let segmentSize = len % MaxRandomQuota;
-        segmentSize = segmentSize > 0 ? segmentSize : MaxRandomQuota;
-        const randomBytesSegment = new Uint8Array(segmentSize);
-        global.crypto.getRandomValues(randomBytesSegment);
-        len -= segmentSize;
-        randomBytes.set(randomBytesSegment, len);
-    }
-    return randomBytes;
+    return new AesCbcNode();
 }
 
 export function random(len: number): Uint8Array {
-    if (global.crypto?.subtle) {
-        return safeRandomWeb(len);
-    } else {
-        return new Uint8Array(nodeCrypto.randomBytes(len));
-    }
+    return new Uint8Array(nodeCrypto.randomBytes(len));
+
 }
 
 export function chacha20(

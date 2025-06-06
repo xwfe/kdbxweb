@@ -1,10 +1,11 @@
 import * as CryptoEngine from '../crypto/crypto-engine';
 import * as KeyEncryptorAes from './key-encryptor-aes';
-import { VarDictionary, VarDictionaryAnyValue } from '../utils/var-dictionary';
+import  { VarDictionary } from '../utils/var-dictionary';
+import type { VarDictionaryAnyValue } from '../utils/var-dictionary';
 import { KdbxError } from '../errors/kdbx-error';
 import { ErrorCodes, KdfId } from '../defs/consts';
 import { bytesToBase64, zeroBuffer } from '../utils/byte-utils';
-import { Argon2Type } from './crypto-engine';
+import type { Argon2Type } from './crypto-engine';
 import { Int64 } from '../utils/int64';
 
 export function encrypt(key: ArrayBuffer, kdfParams: VarDictionary): Promise<ArrayBuffer> {

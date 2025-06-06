@@ -3,13 +3,15 @@ import * as XmlUtils from './../utils/xml-utils';
 import { KdbxTimes } from './kdbx-times';
 import { AutoTypeObfuscationOptions, Icons } from '../defs/consts';
 import { ProtectedValue } from '../crypto/protected-value';
-import { KdbxCustomData, KdbxCustomDataMap } from './kdbx-custom-data';
+import  { KdbxCustomData } from './kdbx-custom-data';
+import type { KdbxCustomDataMap } from './kdbx-custom-data';
 import { KdbxUuid } from './kdbx-uuid';
 import { KdbxContext } from './kdbx-context';
-import { KdbxBinaries, KdbxBinary, KdbxBinaryOrRef, KdbxBinaryWithHash } from './kdbx-binaries';
+import  { KdbxBinaries } from './kdbx-binaries';
+import type { KdbxBinary, KdbxBinaryOrRef, KdbxBinaryWithHash } from './kdbx-binaries';
 import { KdbxMeta } from './kdbx-meta';
 import { KdbxGroup } from './kdbx-group';
-import { MergeObjectMap } from './kdbx';
+import type { MergeObjectMap } from './kdbx';
 
 export type KdbxEntryField = string | ProtectedValue;
 

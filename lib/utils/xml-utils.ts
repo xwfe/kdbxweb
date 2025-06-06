@@ -7,7 +7,8 @@ import { Int64 } from './int64';
 import { KdbxUuid } from '../format/kdbx-uuid';
 import { ProtectedValue } from '../crypto/protected-value';
 import { ProtectSaltGenerator } from '../crypto/protect-salt-generator';
-import { KdbxBinaries, KdbxBinaryOrRef } from '../format/kdbx-binaries';
+import  { KdbxBinaries } from '../format/kdbx-binaries';
+import type { KdbxBinaryOrRef } from '../format/kdbx-binaries';
 
 const DateRegex = /\.\d\d\d/;
 const EpochSeconds = 62135596800;

@@ -2,6 +2,8 @@
 
 KdbxWeb is a high-performance javascript library for reading/writing KeePass v2 databases (kdbx) in node.js or browser.
 
+> 🦶this repo's aim is to make it available in wechat mini-program.
+
 <br />
 
 ---

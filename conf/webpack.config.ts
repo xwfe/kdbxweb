@@ -43,8 +43,11 @@ module.exports = {
             '@': path.resolve(__dirname, '../')
         },
         fallback: {
+            buffer: require.resolve('buffer/'),
+            stream: require.resolve('stream-browserify'),
+            process: require.resolve('process/brwoser'),
+            fs: false,
             console: false,
-            process: false,
             Buffer: false,
             crypto: false,
             zlib: false
@@ -60,10 +63,10 @@ module.exports = {
         minimizer: debug
             ? []
             : [
-                  new TerserPlugin({
-                      extractComments: false
-                  })
-              ]
+                new TerserPlugin({
+                    extractComments: false
+                })
+            ]
     },
     externals: {
         fs: true,

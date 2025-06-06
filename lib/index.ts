@@ -13,9 +13,10 @@ import * as XmlNames from './defs/xml-names';
 
 import { KdbxError } from './errors/kdbx-error';
 
-import { Kdbx, KdbxEditState } from './format/kdbx';
-import {
-    KdbxBinaries,
+import { Kdbx } from './format/kdbx';
+import type { KdbxEditState } from './format/kdbx';
+import { KdbxBinaries } from './format/kdbx-binaries';
+import type {
     KdbxBinary,
     KdbxBinaryIn,
     KdbxBinaryOrRef,
@@ -24,12 +25,14 @@ import {
     KdbxBinaryWithHash
 } from './format/kdbx-binaries';
 import { KdbxContext } from './format/kdbx-context';
-import { KdbxChallengeResponseFn, KdbxCredentials } from './format/kdbx-credentials';
-import { KdbxCustomData, KdbxCustomDataMap, KdbxCustomDataItem } from './format/kdbx-custom-data';
+import { KdbxCredentials } from './format/kdbx-credentials';
+import type { KdbxChallengeResponseFn } from './format/kdbx-credentials';
+import { KdbxCustomData } from './format/kdbx-custom-data';
+import type { KdbxCustomDataMap, KdbxCustomDataItem } from './format/kdbx-custom-data';
 import { KdbxDeletedObject } from './format/kdbx-deleted-object';
-import {
+import { KdbxEntry } from './format/kdbx-entry';
+import type {
     KdbxAutoTypeItem,
-    KdbxEntry,
     KdbxEntryAutoType,
     KdbxEntryEditState,
     KdbxEntryField
@@ -37,12 +40,8 @@ import {
 import { KdbxFormat } from './format/kdbx-format';
 import { KdbxGroup } from './format/kdbx-group';
 import { KdbxHeader } from './format/kdbx-header';
-import {
-    KdbxMemoryProtection,
-    KdbxMeta,
-    KdbxMetaEditState,
-    KdbxCustomIcon
-} from './format/kdbx-meta';
+import { KdbxMeta } from './format/kdbx-meta';
+import type { KdbxMemoryProtection, KdbxMetaEditState, KdbxCustomIcon } from './format/kdbx-meta';
 import { KdbxTimes } from './format/kdbx-times';
 import { KdbxUuid } from './format/kdbx-uuid';
 

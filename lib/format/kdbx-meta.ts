@@ -1,11 +1,12 @@
 import { KdbxUuid } from './kdbx-uuid';
 import * as XmlUtils from '../utils/xml-utils';
 import * as XmlNames from '../defs/xml-names';
-import { KdbxCustomData, KdbxCustomDataItem, KdbxCustomDataMap } from './kdbx-custom-data';
+import  { KdbxCustomData } from './kdbx-custom-data';
+import type { KdbxCustomDataItem, KdbxCustomDataMap } from './kdbx-custom-data';
 import { KdbxContext } from './kdbx-context';
 import { KdbxError } from '../errors/kdbx-error';
 import { Defaults, ErrorCodes } from '../defs/consts';
-import { MergeObjectMap } from './kdbx';
+import type { MergeObjectMap } from './kdbx';
 import { KdbxBinaries } from './kdbx-binaries';
 
 const MetaConst = {

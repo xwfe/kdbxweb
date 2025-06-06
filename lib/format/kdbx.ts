@@ -1,15 +1,18 @@
 import * as XmlNames from '../defs/xml-names';
 import * as XmlUtils from './../utils/xml-utils';
-import { KdbxBinaries, KdbxBinary, KdbxBinaryWithHash } from './kdbx-binaries';
+import  { KdbxBinaries } from './kdbx-binaries';
+import type { KdbxBinary, KdbxBinaryWithHash } from './kdbx-binaries';
 import { KdbxDeletedObject } from './kdbx-deleted-object';
 import { KdbxGroup } from './kdbx-group';
-import { KdbxMeta, KdbxMetaEditState } from './kdbx-meta';
+import  { KdbxMeta } from './kdbx-meta';
+import type { KdbxMetaEditState } from './kdbx-meta';
 import { KdbxCredentials } from './kdbx-credentials';
 import { KdbxHeader } from './kdbx-header';
 import { KdbxError } from '../errors/kdbx-error';
 import { Defaults, ErrorCodes, Icons } from '../defs/consts';
 import { KdbxFormat } from './kdbx-format';
-import { KdbxEntry, KdbxEntryEditState } from './kdbx-entry';
+import  { KdbxEntry } from './kdbx-entry';
+import type { KdbxEntryEditState } from './kdbx-entry';
 import { KdbxUuid } from './kdbx-uuid';
 import { KdbxContext } from './kdbx-context';
 

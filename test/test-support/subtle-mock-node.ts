@@ -1,5 +1,16 @@
 let SubtleMockNode;
 
+
+// 导出恢复函数
+export function restoreOriginalCrypto() {
+    // 不直接设置global.crypto，而是修改subtle属性
+    Object.defineProperty(global.crypto, 'subtle', {
+        value: undefined,
+        writable: false,
+        configurable: true
+    });
+}
+
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 if (global.process && global.process.versions && global.process.versions.node) {

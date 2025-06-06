@@ -12,7 +12,8 @@ import {
     Signatures
 } from '../defs/consts';
 import { KdbxUuid } from './kdbx-uuid';
-import { ValueType, VarDictionary } from '../utils/var-dictionary';
+import { VarDictionary } from '../utils/var-dictionary';
+import { ValueType } from '../utils/var-dictionary';
 import { BinaryStream } from '../utils/binary-stream';
 import { KdbxError } from '../errors/kdbx-error';
 import { base64ToBytes, zeroBuffer } from '../utils/byte-utils';
@@ -632,14 +633,14 @@ export class KdbxHeader {
         const header = new KdbxHeader();
         header.readSignature(stm);
         header.readVersion(stm);
-        while (header.readField(stm, HeaderFields, ctx)) {}
+        while (header.readField(stm, HeaderFields, ctx)) { }
         header.endPos = stm.pos;
         header.validate();
         return header;
     }
 
     readInnerHeader(stm: BinaryStream, ctx: KdbxContext): void {
-        while (this.readField(stm, InnerHeaderFields, ctx)) {}
+        while (this.readField(stm, InnerHeaderFields, ctx)) { }
         this.validateInner();
     }
 
